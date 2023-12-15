@@ -29,13 +29,6 @@ const addBookHandler = (request, h) => {
     });
     response.code(400);
     return response;
-  } else if (readPage == pageCount) {
-    const response = h.response({
-      status: 'fail',
-      message: 'Gagal menambahkan buku. Anda belum selesai membaca',
-    });
-    response.code(400);
-    return response;
   }
 
   const id = nanoid(16);
@@ -97,8 +90,46 @@ const getAllBookHandler = (request, h) => {
   return response;
 };
 
+const getBookByIdHandler = (request, h) => {
+  const {bookId} = request.params;
+
+  const selectedBook = books.find((book) => book.id === bookId);
+
+  if (!selectedBook) {
+    const response = h.response({
+      status: 'fail',
+      message: 'Buku tidak ditemukan',
+    });
+    response.code(404);
+    return response;
+  }
+
+  const response = h.response({
+    status: 'success',
+    data: {
+      book: {
+        id: selectedBook.id,
+        name: selectedBook.name,
+        year: selectedBook.year,
+        author: selectedBook.author,
+        summary: selectedBook.summary,
+        publisher: selectedBook.publisher,
+        pageCount: selectedBook.pageCount,
+        readPage: selectedBook.readPage,
+        finished: selectedBook.finished,
+        reading: selectedBook.reading,
+        insertedAt: selectedBook.insertedAt,
+        updatedAt: selectedBook.updatedAt,
+      },
+    },
+  });
+  response.code(200);
+  return response;
+};
+
 
 module.exports = {
   addBookHandler,
   getAllBookHandler,
+  getBookByIdHandler,
 };
