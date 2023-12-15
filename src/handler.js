@@ -81,25 +81,21 @@ const getAllBookHandler = (request, h) => {
 
   let filteredBooks = [...books];
 
-  // Filter berdasarkan nama
   if (name) {
     const searchKeyword = name.toLowerCase();
     filteredBooks = filteredBooks.filter((book) => book.name.toLowerCase().includes(searchKeyword));
   }
 
-  // Filter berdasarkan status reading
   if (reading !== undefined) {
     const isReading = reading === '1';
     filteredBooks = filteredBooks.filter((book) => book.reading === isReading);
   }
 
-  // Filter berdasarkan status finished
   if (finished !== undefined) {
     const isFinished = finished === '1';
     filteredBooks = filteredBooks.filter((book) => book.finished === isFinished);
   }
 
-  // Mengembalikan hasil berdasarkan filter
   const response = h.response({
     status: 'success',
     data: {
@@ -151,6 +147,7 @@ const getBookByIdHandler = (request, h) => {
   response.code(200);
   return response;
 };
+
 
 const editBookByIdHandler = (request, h) => {
   const {bookId} = request.params;
@@ -218,6 +215,7 @@ const editBookByIdHandler = (request, h) => {
   return response;
 };
 
+
 const deleteBookByIdHadler = (request, h) => {
   const {bookId} = request.params;
 
@@ -240,6 +238,7 @@ const deleteBookByIdHadler = (request, h) => {
   response.code(404);
   return response;
 };
+
 
 module.exports = {
   addBookHandler,
