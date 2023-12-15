@@ -44,14 +44,16 @@ const addBookHandler = (request, h) => {
   const updatedAt = insertedAt;
 
   const newBook = {
+    id,
     name,
     year,
     author,
     summary,
     publisher,
-    reading,
-    id,
+    pageCount,
+    readPage,
     finished,
+    reading,
     insertedAt,
     updatedAt,
   };
@@ -80,4 +82,23 @@ const addBookHandler = (request, h) => {
   return response;
 };
 
-module.exports = {addBookHandler};
+const getAllBookHandler = (request, h) => {
+  const response = h.response({
+    status: 'success',
+    data: {
+      books: books.map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      })),
+    },
+  });
+  response.code(200);
+  return response;
+};
+
+
+module.exports = {
+  addBookHandler,
+  getAllBookHandler,
+};
